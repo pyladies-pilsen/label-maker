@@ -37,6 +37,17 @@ def user_input():
         -- další? [a/n]:
     """
 
-    print('jsem v user input')
+    entries = []
+    while True:
+        item = {
+            'name'       : input('Název: '),
+            'form'       : input('Forma: '),
+            'unit'       : input('Jednotky: '),
+            'quantity'   : input('Počet: '),
+            'total_price': input('Celková cena [Kč]: '),
+            }
+        entries.append(item)
 
-    # sem píšete kód
+        next_q = input('-- další? [a/n]: ')
+        if next_q == 'n':
+            return entries
