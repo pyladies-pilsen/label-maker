@@ -4,14 +4,14 @@ setup_logging()
 import logging
 
 from calc import calculate_unit_price
-from inputs import user_input
+from inputs import csv_input
 
 log = logging.getLogger(__name__)
 
 
 def main():
     logging.info('Start programu')
-    data = user_input()
+    data = csv_input()
     calculated_data = calculate_unit_price(data)
     log.info(calculated_data)
 

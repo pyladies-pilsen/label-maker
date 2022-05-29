@@ -23,6 +23,10 @@ Example of output:
 ]
 
 """
+import csv
+import logging
+
+log = logging.getLogger(__name__)
 
 VALID_FORMS = [
     'gtt',
@@ -99,3 +103,13 @@ def user_input():
         next_q = input('-- další? [a/n]: ')
         if next_q == 'n':
             return entries
+
+
+def csv_input():
+    """Load data from csv."""
+    log.info('loading data from csv file')
+    with open('resources/sample_data.csv') as file:
+        reader = csv.DictReader(file, quoting=csv.QUOTE_NONNUMERIC)
+        data = list(reader)
+    # TODO: validate data, remove and notify about the unvalid
+    return data
