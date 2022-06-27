@@ -3,7 +3,7 @@ from functools import reduce
 from itertools import zip_longest
 from operator import or_
 
-LABELS_PER_PAGE = 32
+LABELS_PER_PAGE = 36
 
 log = logging.getLogger(__name__)
 
@@ -57,6 +57,9 @@ def round_all_values(dictionary):
     log.debug('rounding numeric values')
     new_dict = {}
     for k, v in dictionary.items():
+        if k == 'unit_price':
+            new_dict[k] = v
+            continue
         try:
             new_dict[k] = int(round(v, 0))
         except TypeError:
