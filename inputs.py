@@ -108,7 +108,7 @@ def user_input():
 def csv_input():
     """Load data from csv."""
     log.info('loading data from csv file')
-    with open('resources/sample_data.csv') as file:
+    with open('input/input_data.csv', encoding='UTF-8') as file:
         reader = csv.DictReader(file, quoting=csv.QUOTE_NONNUMERIC)
         data = list(reader)
     # TODO: validate data, remove and notify about the unvalid

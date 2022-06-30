@@ -1,6 +1,7 @@
 # Label maker - tvorba cenovek
 
 > Tento projek je součástí navazujícího kurzu [pyladies Plzeň](https://pyladies.cz/plzen/).
+> Možnosti vstupu, výstupu a chování aplikace je popsáno v [zadání](task.md).
 
 ## Popis projektu
 
@@ -8,101 +9,53 @@ Program, který usnadňuje práci při tvorbě cenovek v lékárně.
 
 Uživatel zadá potřebné hodnoty, výsupem je pak tisknutelný soubor připravený k rozstříhání.
 
-![ilustracni_foto_cedulky](resources/vyplnena.jpg)
+![ilustracni_foto_cedulky](_resources/vyplnena.jpg)
 
 ---
 
-## Vstupy:
+## Instalace
 
-### Z příkazové řádky pomocí inputů
+Momentálně je aplikace ve formě spustitelného python scriptu. Je tak potřeba mýt nainstalovaný python ve verzi 3.6 a
+větší.  
+Pro instalaci je také doporučeno použít virtuální prostředí, například vestavěné `venv`.
 
-```commandline
-python label_maker.py --uzivatel
-Nazev: Bromhexin
-Forma: gtt
-Jednotky: ml
-Pocet: 100
-Celkova cena: 194
-další? [a/n]: 
-```
+Instalaci pythonu ověříte v příkazové řádce pomocí příkzu: `where.exe python`.
 
-### Ze souboru (csv)
+Poté v příkazové řádce instalujte pomocí následujících příkazů:
 
 ```commandline
-python label_maker.py --soubor cedulky.csv
+git clone https://github.com/pyladies-pilsen/label-maker
+cd label-maker
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-### Pomocí commandline agrumentů
+## Spuštění
+
+> Poznámka: Momentálně aplikace neumožňuje zadat cestu k csv souboru pomocí argumentu v příkazové řádce.
+
+Požadovaný soubor nahrajte do složky `input`.  
+Soubor musí mít název `input_data.csv` (pro ukázku už složka obsahuje příklad dat).  
+Csv soubor musí obsahovat text v dvojitých uvozovkách, čísla samotná (příklad pro tři cedulky):
+
+```text
+"name","form","unit","quantity","total_price"
+"Bepanthen Seneiderm","crm","g",50,363
+"Enzycol DNA","tbl","ks",140,765
+"PantheHair šampon","sol","ml",200,124
+```
+
+Ve složce aplikace (`label-maker`) pak spusťte následující příkazy:
 
 ```commandline
-python label_maker.py --nazev Bromhexin --jednotka ml --mnozstvi 100 --cena 194
+venv/Scripts/activate
+python label_maker.py
 ```
 
-### Omezení vstupu jednotlivých polí
+Výstupní soubor s cedulkami pak najdete ve složce `output`.
 
-#### Nazev:
+> Poznámka: aplikace v současné chvíli produkuje jen výstupní soubor docx
 
-- max 60 znaků (doladit, možno i dvouřádkový)
 
-#### Celková cena:
 
-- musí umožnit 4 cifry `1200,-`
-
-#### Jednotky:
-
-- pouze jedna z možností (ml, kus, tbl, gtt ...)
-
-#### Počet:
-
-- vždy celé číslo (int)
-
-#### Jednotková cena:
-
-- zaokrouhlit na 2 des.m. `12.54,-`
-
----
-
-## Výstupy
-
-- soubor s cedulkami připravený pro tisk.
-- seznam vygenerovaných cedulek.
-- csv soubor který je možnost programem načíst
-
----
-
-## Pro programátory:
-
-### tvar dat za vstupem
-
-Vstupní metody vrací výstup ve tvaru list slovníků.  
-Např.:
-
-```python
-data = [
-    {
-        'name'       : 'Bromhexin',
-        'form'       : 'gtt',
-        'unit'       : 'ml',
-        'quantity'   : 100,
-        'total_price': 194.0,
-        },
-    {
-        'name'       : 'Bromhexin',
-        'form'       : 'tbl',
-        'unit'       : 'ml',
-        'quantity'   : 100,
-        'total_price': 194.0,
-        },
-    {...},
-    {...},
-    ...,
-    ]
-```
-
-### možnosti výstupu
-
-- Pillow
-- docx writer
-- xls writer
-- html/css
-- latex/postscripts
