@@ -11,6 +11,8 @@ from inputs import csv_input
 from inputs import user_input
 from outputs import to_word
 from outputs import to_console
+from outputs import export_to_csv
+from outputs import export_list_of_labels
 
 import logging
 
@@ -52,6 +54,16 @@ def main(argv=None):
         default='templates/labels_template.docx',
         help='specify template docx file (defaults to: %(default)s)',
         )
+    parser.add_argument(
+        '--txt-with-numbers',
+        help='if used, exported txt file with labels will have numbering',
+        action='store_true',
+        )
+    parser.add_argument(
+        '--txt-with-checkbox',
+        help='if used, exported txt file with labels will have checkboxes',
+        action='store_true',
+        )
     args = parser.parse_args(argv)
 
     log.info(' program start '.center(80, '-'))
@@ -61,6 +73,14 @@ def main(argv=None):
         data = csv_input(args.input_file)
     else:
         data = user_input()
+
+    # export data for future use
+    export_to_csv(data)
+    export_list_of_labels(
+        data,
+        checkbox=args.txt_with_checkbox,
+        numbering=args.txt_with_numbers,
+        )
 
     # intermediate calculations
     calculated_data = calculate_unit_price(data)
