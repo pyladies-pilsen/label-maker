@@ -33,22 +33,26 @@ def main(argv=None):
              ''')
         )
     parser.add_argument(
+        '-f',
         '--from-file',
         help='if used, data will be loaded from file',
         action='store_true',
         )
     parser.add_argument(
+        '-c',
         '--to-console',
         help='if used, data will be printed to console, may be used to check results',
         action='store_true',
         )
     parser.add_argument(
+        '-i',
         '--input-file',
         type=Path,
         default='input/input_data.csv',
         help='specify input data csv file (defaults to: %(default)s)',
         )
     parser.add_argument(
+        '-t',
         '--template-file',
         type=Path,
         default='templates/labels_template.docx',

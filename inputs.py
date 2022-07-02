@@ -97,7 +97,7 @@ def user_input():
             'name'       : better_input('Název', str),
             'form'       : better_input('Forma', str, valid_options=VALID_FORMS),
             'unit'       : better_input('Jednotky', str, valid_options=VALID_UNITS),
-            'quantity'   : better_input('Počet', int),
+            'quantity'   : better_input('Počet', positive_float),
             'total_price': better_input('Celková cena', positive_float),
             }
         entries.append(item)
