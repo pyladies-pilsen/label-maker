@@ -1,3 +1,5 @@
+import csv
+import itertools
 import logging
 from pathlib import Path
 
@@ -24,27 +26,20 @@ def to_console(data):
 
     log.info('outputting to console')
 
-    template = Template(dedent("""
+    template = Template(dedent("""\
     ┌──────────────────────────────┐
-    │${name_txt}│
+    │${top_row}│
     │                              │
-    │${total_price_txt}│
+    │${price}│
     │                              │
-    │${unit_txt}│
+    │${bottom_row}│
     └──────────────────────────────┘
     """))
 
-    for item in data:
-        total_price_label = f'{item["total_price"]},-'
-        unit_label = f'1 {item["unit"]} = {item["unit_price"]} Kč'
-
-        sub = {
-            'name_txt'       : f'{item["name"]:^30}',
-            'total_price_txt': f'{total_price_label:^30}',
-            'unit_txt'       : f'{unit_label:^30}',
-            }
-
-        filled = template.substitute(sub)
+    data = prepare_rows(data)
+    for label in data:
+        centered = {k: f'{v:^30}' for k, v in label.items()}
+        filled = template.substitute(centered)
         print(filled)
 
 
@@ -79,3 +74,39 @@ def to_word(data, template):
         doc.save(Path(OUTPUT_FOLDER) / filename)
 
     log.info('output to word finished')
+
+
+def export_to_csv(data):
+    """Output the inserted data to csv file for future use."""
+    log.info('exporting input data to csv')
+
+    with open('output/exported_labels.csv', 'w', newline='', encoding='UTF-8') as csvfile:
+        fieldnames = data[0].keys()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_NONNUMERIC)
+
+        writer.writeheader()
+        for label in data:
+            writer.writerow(label)
+
+
+def export_list_of_labels(data, checkbox=False, numbering=False):
+    """Export list of labels for reference."""
+    log.info(f'exporting list of labels {"- with checkboxes" if checkbox else ""}')
+
+    num_labels = len(data)
+
+    # use same format of top row
+    rows = [
+        '{name} {form} {quantity:.0f} {unit}'.format(**label)
+        for label in data
+        ]
+    if numbering:
+        label_counter = itertools.count(start=1)
+        rows = [f'{next(label_counter):>3}. - {row}' for row in rows]
+    if checkbox:
+        rows = [f'[ ] - {row}' for row in rows]
+
+    with open('output/exported_label_names.txt', 'w', encoding='UTF-8') as file:
+        file.write(f'Seznam cedulek - celkem {num_labels}\n')
+        file.write('-' * 80 + '\n')
+        file.write('\n'.join(rows))
