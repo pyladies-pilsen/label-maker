@@ -115,5 +115,20 @@ Např.:
 - `python label_maker.py --from-file --input-file input/moje_data.csv`
 - `python label_maker.py --from-file --txt-with-numbers --txt-with-checkbox`
 
+## Vytvoření spustitelného souboru
+
+Pro windows můžeme ze scriptu vytvořit spustitelný `exe` soubor.  
+Ten je pak snadné distribuovat i lidem, kteří nemají a neumí pustit python script.
+
+K vytvoření exe souboru použijeme balíček [`pyinstaller`](https://pyinstaller.org/en/stable/).  
+Jeho použití je zabaleno do spustitelného `make_exe.bat` souboru.  
+Soubor sputíme z příkazové řádky jen tak, že napíšeme jeho název a potvrdíme.  
+Po dokončení se ve složce objeví soubor `label_maker.exe`. Ten je možné souštět pomocí stejných argumentů popsaných
+výše.  
+Např.:
+
+```commandline
+label_maker.exe --from-file
+```
 
 
