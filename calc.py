@@ -3,7 +3,7 @@ from functools import reduce
 from itertools import zip_longest
 from operator import or_
 
-LABELS_PER_PAGE = 36
+LABELS_PER_PAGE = 32
 
 log = logging.getLogger(__name__)
 
@@ -77,15 +77,17 @@ def prepare_rows(data):
     new_data = []
     for dct in data:
         dct = round_all_values(dct)
-        top_row = '{name} {form} {quantity} {unit}'.format(**dct)
+        name = '{name}'.format(**dct)
+        form_qty_unit = '{form} {quantity} {unit}'.format(**dct)
         price = '{total_price},-'.format(**dct)
         bottom_row = '1 {unit} = {unit_price} Kč'.format(**dct)
         new_data.append(
             {
-                'top_row'   : top_row,
-                'price'     : price,
-                'bottom_row': bottom_row,
-                }
-            )
+                'name'         : name,
+                'form_qty_unit': form_qty_unit,
+                'price'        : price,
+                'bottom_row'   : bottom_row,
+            }
+        )
     log.debug('done')
     return new_data
