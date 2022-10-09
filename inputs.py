@@ -28,23 +28,22 @@ import logging
 
 log = logging.getLogger(__name__)
 
-VALID_FORMS = [
-    'gtt',
-    'sir',
-    'sol',
-    'pst',
-    'tbl',
-    'cps',
-    'ung',
-    'crm',
-    'supp',
-    'spr',
-    'grg',
-    ]
-VALID_UNITS = [
-    'g',
-    'ml',
-    ]
+VALID_FORMS = {
+    'gtt' : "ml",
+    'sir' : "ml",
+    'sol' : "ml",
+    'pst' : "ks",
+    'tbl' : "ks",
+    'cps' : "ks",
+    'ung' : "g",
+    'crm' : "g",
+    'supp': "ks",
+    'spr' : "ml",
+    'grg' : "ml",
+    'dos' : "ks",
+    'sac' : "ks",
+    'pulv': "g",
+}
 
 
 def positive_float(string):
@@ -93,11 +92,11 @@ def user_input():
     while True:
         item = {
             'name'       : better_input('Název', str),
-            'form'       : better_input('Forma', str, valid_options=VALID_FORMS),
-            'unit'       : better_input('Jednotky', str, valid_options=VALID_UNITS),
+            'form'       : better_input('Forma', str, valid_options=VALID_FORMS.keys()),
             'quantity'   : better_input('Počet', int),
             'total_price': better_input('Celková cena', positive_float),
-            }
+        }
+        item["unit"] = VALID_FORMS.get(item["form"], "")
         entries.append(item)
 
         next_q = input('-- další? [a/n]: ')
@@ -111,5 +110,7 @@ def csv_input():
     with open('input/sample_data.csv', encoding='UTF-8') as file:
         reader = csv.DictReader(file, quoting=csv.QUOTE_NONNUMERIC)
         data = list(reader)
+    for item in data:
+        item["unit"] = VALID_FORMS.get(item["form"], "")
     # TODO: validate data, remove and notify about the unvalid
     return data
