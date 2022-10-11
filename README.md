@@ -36,7 +36,7 @@ pip install -r requirements.txt
 > Poznámka: Momentálně aplikace neumožňuje zadat cestu k csv souboru pomocí argumentu v příkazové řádce.
 
 Požadovaný soubor nahrajte do složky `input`.  
-Csv soubor musí obsahovat text v dvojitých uvozovkách, čísla samotná (příklad pro tři cedulky):
+Csv soubor musí obsahovat text v dvojitých uvozovkách, čísla bez uvozovek (příklad pro tři cedulky):
 
 ```text
 "name","form","unit","quantity","total_price"
