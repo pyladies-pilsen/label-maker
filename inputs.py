@@ -43,6 +43,15 @@ VALID_FORMS = {
     'dos' : "ks",
     'sac' : "ks",
     'pulv': "g",
+    "pasta" : "ml",
+    "sada" : "ks",
+    "šamp" : "ml",
+    "eff" : "ks",
+    "spec" : "g",
+    "gel" : "g",
+    "gum" : "ks",
+    "empl" : "ks",
+    "ZP" : "ml",
 }
 
 
