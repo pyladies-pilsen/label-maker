@@ -24,27 +24,25 @@ def to_console(data):
 
     log.info('outputting to console')
 
-    template = Template(dedent("""
-    ┌──────────────────────────────┐
-    │${name_txt}│
-    │                              │
-    │${total_price_txt}│
-    │                              │
-    │${unit_txt}│
-    └──────────────────────────────┘
-    """))
+    template = Template(
+        dedent(
+            """\
+                ┌──────────────────────────────┐
+                │${name}│
+                │${form_qty_unit}│
+                │                              │
+                │${price}│
+                │                              │
+                │${bottom_row}│
+                └──────────────────────────────┘
+                """
+            )
+        )
 
-    for item in data:
-        total_price_label = f'{item["total_price"]},-'
-        unit_label = f'1 {item["unit"]} = {item["unit_price"]} Kč'
-
-        sub = {
-            'name_txt'       : f'{item["name"]:^30}',
-            'total_price_txt': f'{total_price_label:^30}',
-            'unit_txt'       : f'{unit_label:^30}',
-            }
-
-        filled = template.substitute(sub)
+    data = prepare_rows(data)
+    for label in data:
+        centered = {k: f'{v:^30}' for k, v in label.items()}
+        filled = template.substitute(centered)
         print(filled)
 
 
